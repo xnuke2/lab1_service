@@ -5,9 +5,10 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,7 +19,11 @@ import java.util.List;
 @Tag(name="Система голосования.", description="Позволяет добавлять людей участвующих  в голосовании")
 @ApiResponses(@ApiResponse(responseCode = "200", useReturnTypeSchema = true))
 public class VoteController {
-    VoteRepository voteRepository = new VoteRepository();
+
+    VoteRepository voteRepository;
+    //public VoteController(VoteRepository voteRepository){
+    //    this.voteRepository =voteRepository;
+    //}
 
     @Operation(
             summary = "Получения списка всех людей участвующих  в голосовании",
