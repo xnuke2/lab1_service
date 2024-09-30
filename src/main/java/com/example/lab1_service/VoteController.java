@@ -7,6 +7,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,7 +35,7 @@ public class VoteController {
     public ResponseEntity<List<DeputyEntity>> getListDeputes(){
 
         List<DeputyEntity> deputy = voteRepository.getAll();
-        return deputy != null
+        return deputy != null &&  !deputy.isEmpty()
                 ? new ResponseEntity<>(deputy, HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
@@ -41,6 +43,7 @@ public class VoteController {
             summary = "Получения конкретного человека участвующего  в голосовании",
             description = "Позволяет получить конкретного человека участвующего  в голосовании"
     )
+    @Cacheable(value = "users", key = "#name")
     @GetMapping("/{name}")
     public ResponseEntity<?> getDeputeById(@Parameter(description = "ФИО", example = "Иванов Иван Иванович") @PathVariable String name){
 
@@ -53,6 +56,7 @@ public class VoteController {
             summary = "Добавить человека, участвующего в голосовании",
             description = "Позволяет добавить человека в список"
     )
+    @CacheEvict(value = "users", key = "#name")
     @PostMapping
     public ResponseEntity<?> addNewDeputy(
             @Parameter(description = "ФИО", example = "Иванов Иван Иванович") @RequestParam String name,
@@ -68,6 +72,7 @@ public class VoteController {
             description = "Позволяет убрать человека из списока"
     )
     @DeleteMapping("/{name}")
+    @CacheEvict(value = "users", key = "#name")
     public ResponseEntity<?> deleteByName(
             @Parameter(description = "ФИО", example = "Иванов Иван Иванович")@PathVariable String name){
         return voteRepository.deleteByName(name)
@@ -78,6 +83,7 @@ public class VoteController {
             summary = "Редактировать информацию о человеке из списка",
             description = "Позволяет Редактировать информацию о человеке из списка"
     )
+    @CacheEvict(value = "users", key = "#name")
     @PutMapping("/{oldName}")
     public ResponseEntity<?> putDeputy(
             @Parameter(description = "ФИО человека для изменения", example = "Иванов Иван Иванович")
