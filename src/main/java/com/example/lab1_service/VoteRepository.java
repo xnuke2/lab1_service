@@ -12,6 +12,9 @@ import java.util.List;
 public class VoteRepository {
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private DeputyRepository deputyRepository;
+    public VoteRepository(DeputyRepository deputyRepository){
+        this.deputyRepository=deputyRepository;
+    }
 
     public List<DeputyEntity>  getAll(){
         return deputyRepository.findAll();

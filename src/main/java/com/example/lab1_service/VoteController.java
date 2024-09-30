@@ -21,9 +21,9 @@ import java.util.List;
 public class VoteController {
 
     VoteRepository voteRepository;
-    //public VoteController(VoteRepository voteRepository){
-    //    this.voteRepository =voteRepository;
-    //}
+    public VoteController(VoteRepository voteRepository){
+        this.voteRepository =voteRepository;
+    }
 
     @Operation(
             summary = "Получения списка всех людей участвующих  в голосовании",
@@ -33,7 +33,7 @@ public class VoteController {
     public ResponseEntity<List<DeputyEntity>> getListDeputes(){
 
         List<DeputyEntity> deputy = voteRepository.getAll();
-        return deputy != null &&  !deputy.isEmpty()
+        return deputy != null
                 ? new ResponseEntity<>(deputy, HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
