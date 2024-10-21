@@ -1,21 +1,18 @@
-package com.example.lab1_service;
+package com.example.lab1_service.Services;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
+import com.example.lab1_service.Entity.DeputyEntity;
+import com.example.lab1_service.Repository.VoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 @Service
 public class VoteService {
     @Autowired
     VoteRepository voteRepository;
+
 
     public List<DeputyEntity> getListDeputes(){
 
@@ -30,17 +27,19 @@ public class VoteService {
         return deputy;
     }
 
-    @CachePut(value = "deputs", key = "#name")
+
     public Boolean addNewDeputy(
             String name,
              int age,
              String party,
-             int numOfVotes){
-        return voteRepository.addNew(name, age, party, numOfVotes);
+             int numOfVotes,String user){
+
+        return voteRepository.addNew(name, age, party, numOfVotes,user);
     }
     @CacheEvict(value = "deputs", key = "#name")
     public Boolean deleteByName(
              String name){
+
         return voteRepository.deleteByName(name);
     }
 
@@ -50,7 +49,8 @@ public class VoteService {
              String name,
              int age,
              String party,
-             int numOfVotes){
-        return voteRepository.changeDeputy(oldName, name, age, party, numOfVotes);
+             int numOfVotes,String user){
+
+        return voteRepository.changeDeputy(oldName, name, age, party, numOfVotes,user);
     }
 }

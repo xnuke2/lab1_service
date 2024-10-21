@@ -1,12 +1,11 @@
-package com.example.lab1_service;
+package com.example.lab1_service.Entity;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.PersistenceCreator;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serial;
@@ -16,24 +15,30 @@ import java.io.Serializable;
 @Getter
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
+@JsonSerialize
+@RequiredArgsConstructor
 @Schema(description = "Человек за которого голосуют")
 public class DeputyEntity implements Serializable {
-    @Serial
-    private static final long serialVersionUID = 1L;
-    @NotBlank
+    @NonNull
     @Id
     @Schema(description = "ФИО")
     String name;
 
-    @NotBlank
+    @NonNull
     @Schema(description = "возраст ")
     int age;
 
-    @NotBlank
+    @NonNull
     @Schema(description = "Партия к которой принадлежит")
     String party;
 
-    @NotBlank
+    @NonNull
     @Schema(description = "Колличество голосов")
     int numberOfVotes;
+
+    @NonNull
+    String userID;
+
+    String confirm=null;
 }

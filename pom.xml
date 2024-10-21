@@ -8,6 +8,7 @@
         <version>3.3.3</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
+    <packaging>jar</packaging>
     <groupId>com.example</groupId>
     <artifactId>lab1_service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
@@ -27,7 +28,8 @@
         <url/>
     </scm>
     <properties>
-        <java.version>22</java.version>
+        <java.version>19</java.version>
+        <start-class>com.example.lab1_service.Lab1ServiceApplication</start-class>
     </properties>
     <dependencies>
         <dependency>
@@ -56,17 +58,11 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.34</version>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>io.swagger.core.v3</groupId>
             <artifactId>swagger-annotations</artifactId>
             <version>2.2.8</version>
-        </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.data</groupId>
@@ -78,11 +74,18 @@
             <artifactId>spring-boot-starter-data-redis</artifactId>
             <version>3.3.4</version>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>redis.clients</groupId>-->
-<!--            <artifactId>jedis</artifactId>-->
-<!--            <version>3.10.0</version>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
+
+
+
+
     </dependencies>
 
     <build>
@@ -90,6 +93,10 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>com.example.lab1_service.Lab1ServiceApplication</mainClass>
+                    <layout>JAR</layout>
+                </configuration>
             </plugin>
         </plugins>
     </build>

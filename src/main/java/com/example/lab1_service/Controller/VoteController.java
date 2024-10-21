@@ -1,15 +1,13 @@
-package com.example.lab1_service;
+package com.example.lab1_service.Controller;
 
+import com.example.lab1_service.Entity.DeputyEntity;
+import com.example.lab1_service.Services.VoteService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -43,7 +41,8 @@ public class VoteController {
             description = "Позволяет получить конкретного человека участвующего  в голосовании"
     )
     @GetMapping("/{name}")
-    public ResponseEntity<?> getDeputeById(@Parameter(description = "ФИО", example = "Иванов Иван Иванович") @PathVariable String name){
+    public ResponseEntity<?> getDeputeById(
+            @Parameter(description = "ФИО", example = "Иванов Иван Иванович") @PathVariable String name){
 
         DeputyEntity deputy = voteService.getDeputeById(name);
         return deputy != null
@@ -59,8 +58,9 @@ public class VoteController {
             @Parameter(description = "ФИО", example = "Иванов Иван Иванович") @RequestParam String name,
             @Parameter(description = "Возраст", example = "23") @RequestParam int age,
             @Parameter(description = "Политическая партия", example = "ЛДПР") @RequestParam String party,
-            @Parameter(description = "Количество голосов", example = "563") @RequestParam int numOfVotes){
-        return voteService.addNewDeputy(name, age, party, numOfVotes)
+            @Parameter(description = "Количество голосов", example = "563") @RequestParam int numOfVotes,
+            @Parameter(description = "Имя пользователя для потверждения", example = "xnuke") @RequestParam String user){
+        return voteService.addNewDeputy(name, age, party, numOfVotes,user)
                 ? new ResponseEntity<>(HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
     }
@@ -86,8 +86,9 @@ public class VoteController {
             @Parameter(description = "новое ФИО", example = "Иванов Иван Иванович") @RequestParam String name,
             @Parameter(description = "Возраст", example = "23") @RequestParam int age,
             @Parameter(description = "Политическая партия", example = "ЛДПР") @RequestParam String party,
-            @Parameter(description = "Количество голосов", example = "563") @RequestParam int numOfVotes){
-        return voteService.putDeputy(oldName, name, age, party, numOfVotes)
+            @Parameter(description = "Количество голосов", example = "563") @RequestParam int numOfVotes,
+            @Parameter(description = "Имя пользователя для потверждения", example = "xnuke") @RequestParam String user){
+        return voteService.putDeputy(oldName, name, age, party, numOfVotes,user)
                 ? new ResponseEntity<>(HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
     }
